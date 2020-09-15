@@ -6,7 +6,7 @@ import com.eti.pg.BeyondVisionGame
 import ktx.app.KtxScreen
 
 abstract class BeyondVisionScreen(
-        val beyondVisionGame : BeyondVisionGame,
-        val batch : Batch = beyondVisionGame.batch,
+        val beyondVisionGame: BeyondVisionGame,
+        val batch: Batch = beyondVisionGame.batch,
         val viewport: Viewport = beyondVisionGame.viewPort
 ) : KtxScreen
