@@ -22,6 +22,6 @@ class MenuScreen(beyondVisionGame: BeyondVisionGame) : BeyondVisionScreen(beyond
             it.draw(menuPhoto, VIRTUAL_WIDTH / 2f, VIRTUAL_HEIGHT / 2f, 1f, 1f)
         }
 
-        if (Gdx.input.isTouched) println(" X: ${Gdx.input.x}\n Y: ${Gdx.input.y}")
+        //if (Gdx.input.isTouched) println(" X: ${Gdx.input.x}\n Y: ${Gdx.input.y}")
     }
 }

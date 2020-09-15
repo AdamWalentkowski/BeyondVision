@@ -32,8 +32,8 @@ class BeyondVisionGame : KtxGame<BeyondVisionScreen>() {
         Gdx.app.logLevel = LOG_DEBUG
 
         val multiplexer = InputMultiplexer()
-        multiplexer.addProcessor(SimpleInput())
-        multiplexer.addProcessor(GestureDetector(GestureInput()))
+        multiplexer.addProcessor(SimpleInput(this))
+        multiplexer.addProcessor(GestureDetector(GestureInput(this)))
         Gdx.input.inputProcessor = multiplexer
 
         addScreen(SplashScreen(this))
