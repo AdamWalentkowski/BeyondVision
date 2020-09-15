@@ -4,15 +4,16 @@ import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.Texture
+import com.badlogic.gdx.graphics.g2d.BitmapFont
+import com.badlogic.gdx.graphics.g2d.GlyphLayout
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 import com.badlogic.gdx.math.Interpolation
-import com.eti.pg.BeyondVisionGame
-import com.eti.pg.VIRTUAL_HEIGHT
-import com.eti.pg.VIRTUAL_WIDTH
+import com.eti.pg.*
 import ktx.graphics.use
 import ktx.log.debug
 import ktx.log.logger
 import kotlin.math.cos
+import kotlin.math.min
 import kotlin.math.sin
 import kotlin.random.Random
 
@@ -20,39 +21,65 @@ private val LOG = logger<SplashScreen>()
 
 class SplashScreen(beyondVisionGame: BeyondVisionGame) : BeyondVisionScreen(beyondVisionGame) {
     private val title = Texture("title.jpg")
+    private val font = BitmapFont()
     private val shapeRenderer = ShapeRenderer()
-    private val colorSequence = (1..10).map { Color(Random.nextFloat(), Random.nextFloat(), Random.nextFloat(), 1f) }
+    private val colorSequence = (1..6).map {
+        Color(Random.nextFloat(), Random.nextFloat(), Random.nextFloat(), -0.5f)
+    }
     private var time = 0f
 
-        override fun show() {
+    override fun show() {
         LOG.debug { "Splash screen is shown" }
-        Gdx.gl.glEnable(GL20.GL_BLEND)
-        Gdx.gl.glClearColor(0.15f, 0.14f, 0.11f, 1f)
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
-        batch.enableBlending()
     }
 
     override fun render(delta: Float) {
         time += delta
 
-        shapeRenderer.use(ShapeRenderer.ShapeType.Filled) {
-            drawParticles()
+        Gdx.gl.glClearColor(0.15f, 0.14f, 0.11f, 1f)
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
+
+        batch.use(viewport.camera.combined.cpy().scale(TEXT_SCALE, TEXT_SCALE, 1f)) {
+            val glyphLayout = GlyphLayout(font, "Tap to continue")
+            font.color = Color(1f, 1f, 1f, sin(time))
+            font.draw(it,
+                    glyphLayout,
+                    (VIRTUAL_WIDTH / TEXT_SCALE - glyphLayout.width) / 2f,
+                    (VIRTUAL_HEIGHT / TEXT_SCALE - glyphLayout.height) / 4f)
         }
 
-        batch.use {
-            it.draw(title, 0f, 0f)
+        batch.use(viewport.camera.combined) {
+            it.enableBlending()
+            it.setColor(1f, 1f, 1f, min(time / 2f, 1f))
+            it.draw(title,
+                    -VIRTUAL_WIDTH / 2f,
+                    VIRTUAL_HEIGHT / 2f,
+                    VIRTUAL_WIDTH * 2f,
+                    VIRTUAL_HEIGHT / 3f)
+        }
+
+        Gdx.gl.glEnable(GL20.GL_BLEND)
+        Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+
+        shapeRenderer.use(ShapeRenderer.ShapeType.Filled) {
+            shapeRenderer.projectionMatrix = viewport.camera.combined
+            drawParticles(delta)
         }
 
         if (Gdx.input.isTouched) beyondVisionGame.setScreen<MenuScreen>()
     }
 
-    private fun drawParticles() {
+    private fun drawParticles(delta: Float) {
         colorSequence.forEachIndexed { i, color ->
+            val horizontalCircularMotion = -sin(time * (i.inc() + 1) / 2.0f) + VIRTUAL_WIDTH / 2f
+            val verticalCircularMotion = cos(time * i.inc() / 2.0f) + VIRTUAL_HEIGHT / 5f
+            val fadeInMotion = Interpolation.exp5.apply(time * i.inc() / 10f) * VIRTUAL_HEIGHT / 5f
+            val floatMotion = sin(time)
+            color.a = min(color.a + delta / 2f, 1f)
             shapeRenderer.color = color
             shapeRenderer.circle(
-                    -sin(time * i / 2.0f) * 20 * i + VIRTUAL_WIDTH / 2f,
-                    cos(time * i / 2.0f) * 10 * i + VIRTUAL_WIDTH / 4f + Interpolation.exp5.apply(time * i) * VIRTUAL_HEIGHT / 40f + sin(time) * 20,
-                    10f
+                    horizontalCircularMotion,
+                    verticalCircularMotion + fadeInMotion + floatMotion,
+                    0.2f
             )
         }
     }

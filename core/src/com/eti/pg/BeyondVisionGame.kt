@@ -16,6 +16,7 @@ import ktx.log.logger
 private val LOG = logger<BeyondVisionGame>()
 val VIRTUAL_WIDTH = 9f
 val VIRTUAL_HEIGHT = 21f
+val TEXT_SCALE = 0.03f
 
 class BeyondVisionGame : KtxGame<BeyondVisionScreen>() {
     val batch : Batch by lazy { SpriteBatch(20) }
