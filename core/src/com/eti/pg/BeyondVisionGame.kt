@@ -34,7 +34,7 @@ class BeyondVisionGame : KtxGame<BeyondVisionScreen>() {
         addScreen(MenuScreen(this))
         setScreen<SplashScreen>()
 
-        Gdx.input.inputProcessor = GameInput()
+        Gdx.input.inputProcessor = GameInput(this)
 
         LOG.debug { "Game instance running properly" }
     }
