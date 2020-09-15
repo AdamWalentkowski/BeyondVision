@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.utils.viewport.FillViewport
 import com.badlogic.gdx.utils.viewport.Viewport
 import com.badlogic.gdx.graphics.OrthographicCamera
+import com.eti.pg.input.GameInput
 import com.eti.pg.screen.BeyondVisionScreen
 import com.eti.pg.screen.MenuScreen
 import com.eti.pg.screen.SplashScreen
@@ -33,11 +34,7 @@ class BeyondVisionGame : KtxGame<BeyondVisionScreen>() {
         addScreen(MenuScreen(this))
         setScreen<SplashScreen>()
 
-        Gdx.input.inputProcessor = object : InputAdapter(){
-            override fun touchDown(screenX: Int, screenY: Int, pointer: Int, button: Int): Boolean {
-                return super.touchDown(screenX, screenY, pointer, button)
-            }
-        }
+        Gdx.input.inputProcessor = GameInput()
 
         LOG.debug { "Game instance running properly" }
     }
