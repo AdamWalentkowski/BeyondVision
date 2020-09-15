@@ -1,14 +1,12 @@
 package com.eti.pg.input
 
 import com.badlogic.gdx.InputAdapter
-import com.eti.pg.BeyondVisionGame
-import com.eti.pg.screen.MenuScreen
-import com.eti.pg.screen.SplashScreen
+import com.badlogic.gdx.input.GestureDetector
 
-class GameInput(val game: BeyondVisionGame) : InputAdapter(){
+class SimpleInput : InputAdapter(){
 
-    override fun touchDown(screenX: Int, screenY: Int, pointer: Int, button: Int): Boolean {
-        game.setScreen<MenuScreen>()
-        return true
-    }
+}
+
+class GestureInput : GestureDetector.GestureAdapter(){
+
 }
