@@ -2,18 +2,15 @@ package com.eti.pg
 
 import com.badlogic.gdx.Application.LOG_DEBUG
 import com.badlogic.gdx.Gdx
-import com.badlogic.gdx.InputAdapter
 import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.utils.viewport.FillViewport
 import com.badlogic.gdx.utils.viewport.Viewport
-import com.badlogic.gdx.graphics.OrthographicCamera
 import com.eti.pg.input.GameInput
 import com.eti.pg.screen.BeyondVisionScreen
 import com.eti.pg.screen.MenuScreen
 import com.eti.pg.screen.SplashScreen
 import ktx.app.KtxGame
-import ktx.app.KtxScreen
 import ktx.log.debug
 import ktx.log.logger
 

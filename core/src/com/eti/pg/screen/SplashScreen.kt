@@ -8,7 +8,10 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont
 import com.badlogic.gdx.graphics.g2d.GlyphLayout
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 import com.badlogic.gdx.math.Interpolation
-import com.eti.pg.*
+import com.eti.pg.BeyondVisionGame
+import com.eti.pg.TEXT_SCALE
+import com.eti.pg.VIRTUAL_HEIGHT
+import com.eti.pg.VIRTUAL_WIDTH
 import ktx.graphics.use
 import ktx.log.debug
 import ktx.log.logger
@@ -58,7 +61,7 @@ class SplashScreen(beyondVisionGame: BeyondVisionGame) : BeyondVisionScreen(beyo
         }
 
         Gdx.gl.glEnable(GL20.GL_BLEND)
-        Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+        Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA)
 
         shapeRenderer.use(ShapeRenderer.ShapeType.Filled) {
             shapeRenderer.projectionMatrix = viewport.camera.combined
