@@ -11,6 +11,7 @@ import com.badlogic.gdx.utils.viewport.Viewport
 import com.eti.pg.input.GestureInput
 import com.eti.pg.input.SimpleInput
 import com.eti.pg.screen.BeyondVisionScreen
+import com.eti.pg.screen.GameScreen
 import com.eti.pg.screen.MenuScreen
 import com.eti.pg.screen.SplashScreen
 import ktx.app.KtxGame
@@ -38,6 +39,7 @@ class BeyondVisionGame : KtxGame<BeyondVisionScreen>() {
 
         addScreen(SplashScreen(this))
         addScreen(MenuScreen(this))
+        addScreen(GameScreen(this))
         setScreen<SplashScreen>()
 
         LOG.debug { "Game instance running properly" }

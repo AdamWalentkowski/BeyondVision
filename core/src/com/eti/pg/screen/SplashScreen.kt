@@ -42,7 +42,7 @@ class SplashScreen(beyondVisionGame: BeyondVisionGame) : BeyondVisionScreen(beyo
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
 
         batch.use(viewport.camera.combined.cpy().scale(TEXT_SCALE, TEXT_SCALE, 1f)) {
-            val glyphLayout = GlyphLayout(font, "Tap to continue")
+            val glyphLayout = GlyphLayout(font, "Tap to play")
             font.color = Color(1f, 1f, 1f, sin(time))
             font.draw(it,
                     glyphLayout,

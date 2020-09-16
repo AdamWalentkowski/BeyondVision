@@ -1,7 +1,8 @@
 package com.eti.pg.actor
 
-import com.eti.pg.actor.property.Position
+import com.eti.pg.Stage
 
 interface Actor {
-    val position: Position
+    val position: Pair<Int, Int>
+    var stage: Stage
 }
