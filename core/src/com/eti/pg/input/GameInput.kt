@@ -13,6 +13,10 @@ import kotlin.math.abs
 
 private val LOG = logger<GestureInput>()
 
+enum class Directions(val direction: Int){
+    X(0), Y(1)
+}
+
 class SimpleInput(val game: BeyondVisionGame) : InputAdapter(){
     override fun touchDown(screenX: Int, screenY: Int, pointer: Int, button: Int): Boolean {
         if(game.shownScreen !is SplashScreen){
@@ -24,13 +28,20 @@ class SimpleInput(val game: BeyondVisionGame) : InputAdapter(){
 }
 
 class GestureInput(val game: BeyondVisionGame) : GestureDetector.GestureAdapter(){
-    override fun pan(x: Float, y: Float, deltaX: Float, deltaY: Float): Boolean {
-        val distance = sqrt(deltaX*deltaX + deltaY*deltaY)
-        LOG.debug{" X: ${x} Y: ${y} Distance: ${distance} DeltaX: ${deltaX} DeltaY: ${deltaY}"}
 
-        when {
-//            abs(x) > abs(y) -> if x > 0 return game.getScreen
+    override fun fling(velocityX: Float, velocityY: Float, button: Int): Boolean {
+        val direction = if(abs(velocityX) > abs(velocityY)) Directions.X else Directions.Y
+        val direction2: Int
+        if(direction == Directions.X){
+            direction2 = if(velocityX>0) 1 else -1
+            game.getScreen<GameScreen>().movePlayer(direction2, 0)
+        }else{
+            direction2 = if(velocityY>0) 1 else -1
+            game.getScreen<GameScreen>().movePlayer(0, direction2)
         }
+
+        LOG.debug { "FLING" }
+
         return true
     }
 }
