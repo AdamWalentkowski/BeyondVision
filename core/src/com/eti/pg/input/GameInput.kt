@@ -11,9 +11,7 @@ import ktx.log.logger
 import kotlin.math.abs
 import kotlin.math.sign
 
-private val LOG = logger<GestureInput>()
-
-class SimpleInput(val game: BeyondVisionGame) : InputAdapter(){
+class SplashScreenInput(private val game: BeyondVisionGame) : InputAdapter(){
     override fun touchDown(screenX: Int, screenY: Int, pointer: Int, button: Int): Boolean {
         if(game.shownScreen !is SplashScreen){
             return false
@@ -23,7 +21,16 @@ class SimpleInput(val game: BeyondVisionGame) : InputAdapter(){
     }
 }
 
-class GestureInput(val game: BeyondVisionGame) : GestureDetector.GestureAdapter(){
+class MenuScreenInput(private val game: BeyondVisionGame) : GestureDetector.GestureAdapter(){
+    override fun tap(x: Float, y: Float, count: Int, button: Int): Boolean {
+        TODO("Add double tap handling")
+    }
+}
+
+class GameScreenInput(private val game: BeyondVisionGame) : GestureDetector.GestureAdapter(){
+    companion object {
+        val log = logger<GameScreenInput>()
+    }
 
     override fun fling(velocityX: Float, velocityY: Float, button: Int): Boolean {
         if(game.shownScreen !is GameScreen){
@@ -36,7 +43,7 @@ class GestureInput(val game: BeyondVisionGame) : GestureDetector.GestureAdapter(
             else -> directionY = sign(velocityY).toInt()
         }
         WalkAction(game.getScreen<GameScreen>().player, directionX, directionY).perform()
-        LOG.debug { "FLING x:${directionX} y:${directionY}" }
+        log.debug { "Fling x:${directionX} y:${directionY}" }
         return true
     }
 }

@@ -12,6 +12,7 @@ import com.eti.pg.BeyondVisionGame
 import com.eti.pg.TEXT_SCALE
 import com.eti.pg.VIRTUAL_HEIGHT
 import com.eti.pg.VIRTUAL_WIDTH
+import com.eti.pg.input.SplashScreenInput
 import ktx.graphics.use
 import ktx.log.debug
 import ktx.log.logger
@@ -20,19 +21,22 @@ import kotlin.math.min
 import kotlin.math.sin
 import kotlin.random.Random
 
-private val LOG = logger<SplashScreen>()
-
 class SplashScreen(beyondVisionGame: BeyondVisionGame) : BeyondVisionScreen(beyondVisionGame) {
+    companion object {
+        val log = logger<SplashScreen>()
+    }
+
+    private var time = 0f
     private val title = Texture("title.jpg")
     private val font = BitmapFont()
     private val shapeRenderer = ShapeRenderer()
     private val colorSequence = (1..6).map {
         Color(Random.nextFloat(), Random.nextFloat(), Random.nextFloat(), -0.5f)
     }
-    private var time = 0f
 
     override fun show() {
-        LOG.debug { "Splash screen is shown" }
+        log.debug { "Splash screen is shown" }
+        Gdx.input.inputProcessor = SplashScreenInput(beyondVisionGame)
     }
 
     override fun render(delta: Float) {
@@ -67,8 +71,6 @@ class SplashScreen(beyondVisionGame: BeyondVisionGame) : BeyondVisionScreen(beyo
             shapeRenderer.projectionMatrix = viewport.camera.combined
             drawParticles(delta)
         }
-
-        //if (Gdx.input.isTouched) beyondVisionGame.setScreen<MenuScreen>()
     }
 
     private fun drawParticles(delta: Float) {
