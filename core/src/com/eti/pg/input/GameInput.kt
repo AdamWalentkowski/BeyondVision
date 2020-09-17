@@ -5,7 +5,7 @@ import com.badlogic.gdx.input.GestureDetector
 import com.eti.pg.BeyondVisionGame
 import com.eti.pg.action.WalkAction
 import com.eti.pg.screen.GameScreen
-import com.eti.pg.screen.SplashScreen
+import com.eti.pg.screen.MenuScreen
 import ktx.log.debug
 import ktx.log.logger
 import kotlin.math.abs
@@ -13,17 +13,23 @@ import kotlin.math.sign
 
 class SplashScreenInput(private val game: BeyondVisionGame) : InputAdapter(){
     override fun touchDown(screenX: Int, screenY: Int, pointer: Int, button: Int): Boolean {
-        if(game.shownScreen !is SplashScreen){
-            return false
-        }
-        game.setScreen<GameScreen>()
+        game.setScreen<MenuScreen>()
         return true
     }
 }
 
 class MenuScreenInput(private val game: BeyondVisionGame) : GestureDetector.GestureAdapter(){
+    companion object {
+        val log = logger<MenuScreenInput>()
+    }
+
     override fun tap(x: Float, y: Float, count: Int, button: Int): Boolean {
-        TODO("Add double tap handling")
+        log.debug { "Tap count: $count" }
+        return if (count == 2) {
+            game.setScreen<GameScreen>()
+            true
+        }
+        else false
     }
 }
 
@@ -33,9 +39,6 @@ class GameScreenInput(private val game: BeyondVisionGame) : GestureDetector.Gest
     }
 
     override fun fling(velocityX: Float, velocityY: Float, button: Int): Boolean {
-        if(game.shownScreen !is GameScreen){
-            return false
-        }
         var directionX = 0
         var directionY = 0
         when {
@@ -43,7 +46,7 @@ class GameScreenInput(private val game: BeyondVisionGame) : GestureDetector.Gest
             else -> directionY = sign(velocityY).toInt()
         }
         WalkAction(game.getScreen<GameScreen>().player, directionX, directionY).perform()
-        log.debug { "Fling x:${directionX} y:${directionY}" }
+        log.debug { "Fling x: $directionX y:$directionY" }
         return true
     }
 }

@@ -25,7 +25,7 @@ class GameScreen(beyondVisionGame: BeyondVisionGame) : BeyondVisionScreen(beyond
 
     override fun render(delta: Float) {
         actors.forEach{
-            TODO("Action for all characters")
+//            TODO("Action for all characters")
         }
     }
 }
