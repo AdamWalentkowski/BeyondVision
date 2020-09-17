@@ -3,6 +3,7 @@ package com.eti.pg.input
 import com.badlogic.gdx.InputAdapter
 import com.badlogic.gdx.input.GestureDetector
 import com.eti.pg.BeyondVisionGame
+import com.eti.pg.action.WalkAction
 import com.eti.pg.screen.GameScreen
 import com.eti.pg.screen.MenuScreen
 import com.eti.pg.screen.SplashScreen
@@ -34,10 +35,10 @@ class GestureInput(val game: BeyondVisionGame) : GestureDetector.GestureAdapter(
         val direction2: Int
         if(direction == Directions.X){
             direction2 = if(velocityX>0) 1 else -1
-            game.getScreen<GameScreen>().movePlayer(direction2, 0)
+            WalkAction(game.getScreen<GameScreen>().player, direction2, 0).perform()
         }else{
             direction2 = if(velocityY>0) 1 else -1
-            game.getScreen<GameScreen>().movePlayer(0, direction2)
+            WalkAction(game.getScreen<GameScreen>().player,0, direction2).perform()
         }
 
         LOG.debug { "FLING" }
