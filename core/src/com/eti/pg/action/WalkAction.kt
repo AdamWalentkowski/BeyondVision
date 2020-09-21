@@ -2,6 +2,7 @@ package com.eti.pg.action
 
 import com.eti.pg.actor.Actor
 import com.eti.pg.screen.GameScreen
+import com.eti.pg.sounds.SoundManager
 import ktx.log.debug
 import ktx.log.logger
 
@@ -12,6 +13,7 @@ class WalkAction(private val actor: Actor, private val x: Int, private val y: In
     override fun perform() {
         if(isMoveValid()){
             actor.position = Pair(actor.position.first + x, actor.position.second + y)
+            SoundManager.walkSound.play()
             LOG.debug{"Player is position ${actor.position.first} ${actor.position.second}"}
         }
     }
